@@ -1,0 +1,2 @@
+DROP DATABASE IF EXITS tech_db;
+CREATE DATABASE tech_db;
