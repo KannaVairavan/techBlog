@@ -5,7 +5,7 @@ const Comments=require('./Comments');
 User.hasMany(Posts,{
     foreignKey:'user_id',
 });
-Posts.belongsTo(Users,{
+Posts.belongsTo(User,{
     foreignKey:'user_id',
 });
 
