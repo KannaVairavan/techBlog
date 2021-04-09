@@ -7,36 +7,42 @@
     <title>Tech Blog</title>
     <link rel="stylesheet" type="text/css" href="/css/jass.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+
 </head>
 
 
 <body>
-    <header>
-        <h1>The Tech Blog</h1>
-    </header>
-    <nav>
-        <a href="/">Home</a>
+    <div class="wrapper">
+        <header>
+            <h1>
+
+                <a href="/"> The Tech Blog </a>
+
+            </h1>
+            <nav>
+                <span><a href="/">Home</a></span>
 
 
-        {{#if loggedIn}}
-        <a href="/dashboard">Dashboard</a>
-        <button id="logout" class="btn-no-style">Logout</button>
-        {{else}}
-        <a href="/login">Login</a>
-        {{/if}}
-    </nav>
-    <main>
+                {{#if loggedIn}}
+                <a href="/dashboard">Dashboard</a>
+                <button id="logout" class="btn-no-style">Logout</button>
+                {{else}}
+                <a href="/login">Login</a>
+                {{/if}}
+            </nav>
+        </header>
+
 
         <main>
-            <div>
-                {{{body}}}
-            </div>
 
+            {{{body}}}
 
         </main>
-        {{#if loggedIn}}
-        <script src="/js/logout.js"></script>
-        {{/if}}
+        <footer>Thanks for visiting!</footer>
+    </div>
+    {{#if loggedIn}}
+    <script src="/js/logout.js"></script>
+    {{/if}}
 </body>
 
 </html>

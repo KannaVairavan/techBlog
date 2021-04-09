@@ -1,8 +1,12 @@
-<section class="card">
-    <a href="/posts/{{id}}">
-        <header>{{title}}</header>
-        <div class="card-body">
-            {{content}}
-        </div>
+<div class="card">
+    <div class="card-header">
+        <a href="/posts/{{id}}">
+            <header>{{title}}</header>
+            <p>Posted by {{user.Username}} on {{format_date created_date}}</p>
+    </div>
+
+    <div class="card-body">
+        {{content}}
+    </div>
     </a>
-</section>
+</div>

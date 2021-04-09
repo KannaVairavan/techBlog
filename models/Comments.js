@@ -14,6 +14,10 @@ Comments.init(
         comment:{
             type:DataTypes.STRING,
         },
+        date_created:{
+            type:DataTypes.DATE
+            
+        },
         user_id:{
             type:DataTypes.INTEGER,
             references:{
@@ -28,6 +32,7 @@ Comments.init(
                 key:'id',
             },
         },
+        
     },
     {
         sequelize,
