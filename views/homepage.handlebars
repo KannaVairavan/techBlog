@@ -1,5 +1,7 @@
 {{!-- each loop --}}
-{{#each posts as |Post|}}
-{{> post-details}}
+<div class="post">
+    {{#each posts as |Post|}}
+    {{> postdetails post}}
 
-{{/each}}
+    {{/each}}
+</div>

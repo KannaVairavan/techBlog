@@ -1,0 +1,10 @@
+{{!-- --}}
+{{#if post.length}}
+<section>
+    <h2>Posts List</h2>
+    {{#each posts as |post|}}
+    {{>dashboard-postdetail post}}
+    {{/each}}
+</section>
+
+{{/if}}
