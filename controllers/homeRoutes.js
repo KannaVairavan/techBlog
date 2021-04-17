@@ -1,7 +1,7 @@
 const sequelize = require('../config/connection');
 const router = require('express').Router();
 
-const {Posts, Comments, User } = require('../models');
+const {Posts, Comments } = require('../models');
 const withAuth = require('../utils/auth');
 
 
@@ -27,34 +27,35 @@ router.get('/signup', (req, res) => {
   res.render('signup');
 });
 
-// get all posts
-router.get('/', async(req,res)=>{
-  try{
-    const postData= await Posts.findAll({
-      include:[
-        {
-          model:Comments,
-          attributes:[
-            'id',
-            'comment',
-            'post_id',
-            'user_id',
-            'date_created',
+    // get all posts
+    router.get('/', async(req,res)=>{
+      try{
+        const postData= await Posts.findAll({
+          include:[
+            {
+              model:Comments,
+              attributes:[
+                'id',
+                'comment',
+                'post_id',
+                'user_id',
+                'date_created',
+              ]
+            }
           ]
-        }
-      ]
-    
-    });
-    const posts = postData.map((post) => post.get({ plain: true }));
-    res.render('homepage', {
-      posts, 
-      loggedIn:req.session.loggedIn,
+        
+        });
+        const posts = postData.map((post) => post.get({ plain: true }));
+        console.log(posts);
+        res.render('homepage', {
+          posts, 
+          loggedIn:req.session.loggedIn,
 
+        });
+      }catch (err){
+        res.status(500).json(err);
+      }
     });
-  }catch (err){
-    res.status(500).json(err);
-  }
-});
 
 
 router.get('/post/:id', async(req,res)=>{
@@ -75,7 +76,7 @@ router.get('/post/:id', async(req,res)=>{
         ]
       } );
     const posts = dbPostData.get({ plain: true });
-    res.render('posts', {
+    res.render('singlePosts', {
       posts, 
       loggedIn:req.session.loggedIn,
 

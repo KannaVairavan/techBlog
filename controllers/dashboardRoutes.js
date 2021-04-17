@@ -1,4 +1,4 @@
-const sequelize = require('../config/connection');
+
 const router = require('express').Router();
 const {Posts, Comments, User } = require('../models');
 const withAuth = require('../utils/auth');
@@ -34,6 +34,7 @@ router.get('/', withAuth, async(req,res)=>{
       
       });
       const posts = postData.map((post) => post.get({ plain: true }));
+      console.log(posts);
       res.render('dashboard', {
         posts, 
         loggedIn:req.session.loggedIn,
@@ -45,7 +46,7 @@ router.get('/', withAuth, async(req,res)=>{
   });
   
 // get  post by id
-router.get('/post/:id', withAuth, async(req,res)=>{
+router.get('/edit/:id', withAuth, async(req,res)=>{
     try{
       const dbPostData= await Posts.findByPk(req.params.id,
         {
@@ -85,3 +86,4 @@ router.get('/post/:id', withAuth, async(req,res)=>{
     }
   });
   
+  module.exports = router;
