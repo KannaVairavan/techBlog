@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tech Blog</title>
-    <link rel="stylesheet" type="text/css" href="/css/jass.css">
+    {{!--
+    <link rel="stylesheet" type="text/css" href="/css/jass.css"> --}}
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 
 </head>
@@ -26,7 +27,7 @@
 
                 {{#if loggedIn}}
                 <a href="/dashboard">Dashboard</a>
-                <button id="logout" class="btn-no-style">Logout</button>
+                <button id="logout" class="no-button">Logout</button>
                 {{else}}
                 <a href="/login">Login</a>
                 {{/if}}

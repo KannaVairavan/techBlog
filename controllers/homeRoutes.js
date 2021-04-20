@@ -1,14 +1,15 @@
-const sequelize = require('../config/connection');
+
 const router = require('express').Router();
 
-const {Posts, Comments } = require('../models');
+const {User, Posts, Comments } = require('../models');
 const withAuth = require('../utils/auth');
 
 
 // login route
 router.get('/login', (req, res) => {
   // If a session exists, redirect the request to the homepage
-  if (req.session.logged_in) {
+  console.log( req.session.logged_in );
+  if ( req.session.logged_in ) {
     res.redirect('/');
     return;
   }
@@ -19,7 +20,7 @@ router.get('/login', (req, res) => {
 // signup route
 router.get('/signup', (req, res) => {
   // If a session exists, redirect the request to the homepage
-  if (req.session.logged_in) {
+  if ( req.session.logged_in ) {
     res.redirect('/');
     return;
   }
@@ -33,14 +34,8 @@ router.get('/signup', (req, res) => {
         const postData= await Posts.findAll({
           include:[
             {
-              model:Comments,
-              attributes:[
-                'id',
-                'comment',
-                'post_id',
-                'user_id',
-                'date_created',
-              ]
+              model: User,
+              attributes: ['username'],
             }
           ]
         
@@ -49,16 +44,17 @@ router.get('/signup', (req, res) => {
         console.log(posts);
         res.render('homepage', {
           posts, 
-          loggedIn:req.session.loggedIn,
+          loggedIn:req.session.logged_in,
 
         });
       }catch (err){
+        console.log(err);
         res.status(500).json(err);
       }
     });
 
 
-router.get('/post/:id', async(req,res)=>{
+router.get('/post/:id', withAuth, async(req,res)=>{
   try{
     const dbPostData= await Posts.findByPk(req.params.id,
       {
@@ -71,14 +67,23 @@ router.get('/post/:id', async(req,res)=>{
               'post_id',
               'user_id',
               'date_created',
-            ]
+            ],
+            include:{
+                model:User,
+                attributes:['username']
+            }
+          },
+          {
+              model:User,
+              attributes:['username']
           }
         ]
       } );
-    const posts = dbPostData.get({ plain: true });
-    res.render('singlePosts', {
-      posts, 
-      loggedIn:req.session.loggedIn,
+    const postDetail = dbPostData.get({ plain: true });
+    console.log(postDetail);
+    res.render('singlePost', {
+      postDetail, 
+      loggedIn:req.session.logged_in,
 
     });
   }catch (err){
@@ -89,13 +94,24 @@ router.get('/post/:id', async(req,res)=>{
 // get comment by id
 router.get('/comment/:id', async(req, res)=>{
   try{
-    const dbCommentsData=await Comments.findByPk(req.params.id);
-    const comment=dbCommentsData.get({plain:true});
-    res.render('comment', {comment, loggedIn: req.session.loggedIn })
+    const dbCommentsData=await Comments.findByPk(req.params.id, {
+      include:[
+        {
+          model: User,
+          attributes: ['username'],
+        }
+      ]
+    });
 
+    const comment=dbCommentsData.get({plain:true});
+    console.log(comment);
+    res.render('dashboard', {comment, loggedIn: req.session.logged_in })
+    // res.status(200).json(dbCommentsData);
   }catch(err){
     console.log(err);
     res.status(500).json(err);
   }
 })
+
+
 module.exports = router;
