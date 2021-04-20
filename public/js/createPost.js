@@ -6,8 +6,8 @@ async function createPost(event) {
     const title = document.querySelector('input[name="post-title"]').value;
     const content = document.querySelector('input[name="content"]').value;
     const date_created =new Date().toLocaleDateString()
-    alert(title);
-    alert(content);
+    // alert(title);
+    // alert(content);
     const response = await fetch(`/api/posts`, {
       method: 'POST',
       body: JSON.stringify({
