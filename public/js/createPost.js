@@ -1,15 +1,19 @@
 
 async function createPost(event) {
+
     event.preventDefault();
   
     const title = document.querySelector('input[name="post-title"]').value;
     const content = document.querySelector('input[name="content"]').value;
-  
+    const date_created =new Date().toLocaleDateString()
+    alert(title);
+    alert(content);
     const response = await fetch(`/api/posts`, {
       method: 'POST',
       body: JSON.stringify({
         title,
-        content
+        content,
+        date_created
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -22,5 +26,9 @@ async function createPost(event) {
       alert(response.statusText);
     }
   };
+
+    
+document
+.querySelector('.new-post-form')
+.addEventListener('submit', createPost);
   
-document.querySelector('#create-post-form').addEventListener('submit', createPost);
